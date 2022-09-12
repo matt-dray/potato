@@ -1,0 +1,11 @@
+Package: potato
+Title: Play a Game of 'Potato'
+Version: 0.1.0
+Authors@R: c(person("Matt", "Dray", role = c("aut", "cre"), email =  "mwdray@gmail.com"), person("Oliver", "Darkshire", role = "cph"))
+Description: Play in your console an interactive version of 'Potato', a one-page role-playing game by Oliver Darkshire.
+URL: https://www.github.com/matt-dray/potato, https://www.patreon.com/deathbybadger, https://twitter.com/deathbybadger/status/1567425842526945280
+BugReports: https://www.github.com/matt-dray/potato/issues
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
