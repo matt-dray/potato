@@ -16,14 +16,14 @@ potato <- function() {
   message("--- POTATO ---")
 
   message("\nA (one-page) RPG by Oliver Darkshire (@deathbybadger)")
-  message("These and more at https://www.patreon.com/deathbybadger")
+  message("This and more at https://www.patreon.com/deathbybadger")
 
   message("\nYou are a halfling, just trying to exist.")
   message("Meanwhile, the dark lord rampages across the world.")
   message("You do not care about this. You are trying to farm potatoes.")
   message("Because what could a halfling possibly do about it anyway?")
 
-  message("\nKeep rolling until DESTINY, POTATO or ORC reach 10/10.")
+  message("\nKeep going until DESTINY, POTATO or ORC reach 10/10.")
 
   DESTINY <- 0L
   POTATO  <- 0L
@@ -39,28 +39,28 @@ potato <- function() {
     message(paste0("- ORC:     ", ORC, "/10"))
     message(paste0("- PAY:     ", COST, " POTATO to remove 1 ORC\n"))
 
-    if (ORC < 10L & DESTINY == 10L) {
+    if (ORC >= 10L) {
 
-      message("- DESTINY reached 10/10")
-      message("- An interfering bard or wizard turns up at your doorstep with a quest and you are whisked away against your will on an adventure (unless you've already been eaten by orcs).")
+      message("- ORC reached 10!")
+      message("- Orcs finallv find your potato farm. Alas, orcs are not so interested in potatoes as they are in eating you, and you end up in a cookpot.")
 
-      message("\n--- [GAME OVER] ---")
+      message("\n--- GAME OVER ---")
 
       break
 
-    } else if (POTATO == 10L) {
+    } else if (POTATO >= 10L) {
 
-      message("- POTATO reached 10/10")
+      message("- POTATO reached 10!")
       message("- You have enough potatoes that you can go underground and not return to the surface until the danger is past. You nestle down into your burrow and enjoy your well earned rest.")
 
       message("\n--- GAME OVER ---")
 
       break
 
-    } else if (ORC == 10L) {
+    } else if (DESTINY >= 10L) {
 
-      message("- ORC reached 10/10")
-      message("- Orcs finallv find your potato farm. Alas, orcs are not so interested in potatoes as they are in eating you, and you end up in a cookpot.")
+      message("- DESTINY reached 10!")
+      message("- An interfering bard or wizard turns up at your doorstep with a quest and you are whisked away against your will on an adventure (unless you've already been eaten by orcs).")
 
       message("\n--- GAME OVER ---")
 
@@ -68,7 +68,7 @@ potato <- function() {
 
     }
 
-    if (COST <= POTATO) {
+    if (COST <= POTATO & ORC >= 1) {
       can_pay <- TRUE
     } else if (COST > POTATO) {
       can_pay <- FALSE
@@ -81,7 +81,11 @@ potato <- function() {
       while (!input_okay) {
 
         event <- readline(
-          "Press [ENTER] to roll or [p] to pay 1 POTATO to remove 1 ORC... "
+          paste(
+            "Press [ENTER] to roll or [p] to pay",
+            COST,
+            "POTATO to remove 1 ORC... "
+          )
         )
 
         if (event %in% c("", "p")) {
@@ -108,7 +112,7 @@ potato <- function() {
 
     if (event == "p") {
 
-      message("\n- Paid 1 POTATO to remove 1 ORC")
+      message(paste("\n- Hurled", COST, "POTATO to scare off 1 ORC"))
 
       POTATO <- POTATO - 1L
       ORC <- ORC - 1L
@@ -229,7 +233,7 @@ potato <- function() {
 
         if (rolled_knock == 5L) {
 
-          message(paste(rolled_knock_msg, "It's an elf. They are not serious people. "))
+          message(paste(rolled_knock_msg, "It's an elf. They are not serious people."))
           message("- Result: +1 DESTINY")
 
           DESTINY <- DESTINY + 1L
@@ -247,7 +251,8 @@ potato <- function() {
 
       } else if (rolled %in% 5:6L) {
 
-        message(paste(rolled_msg, "The world becomes a darker, more dangerous place. From now on, removing ORC costs an additional POTATO (this is cumulative)."))
+        message(paste(rolled_msg, "The world becomes a darker, more dangerous place."))
+        message("- Result: From now on, removing ORC costs an additional POTATO (this is cumulative)")
 
         COST <- COST + 1L
 
@@ -255,13 +260,9 @@ potato <- function() {
 
       if (DESTINY < 0L)  {
         DESTINY <- 0L
-      }
-
-      if (POTATO < 0L) {
+      } else if (POTATO < 0L) {
         POTATO <- 0L
-      }
-
-      if (ORC < 0L) {
+      } else if (ORC < 0L) {
         ORC <- 0L
       }
 
